@@ -1,0 +1,150 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mermaid Swimlane Diagram</title>
+    <!-- Include Mermaid.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <!-- Initialize Mermaid.js -->
+    <script>mermaid.initialize({ startOnLoad: true });</script>
+</head>
+<body>
+    <h2> Spin : JKDAAA02</h2>
+    <div class="mermaid">
+        sequenceDiagram
+        actor HTTP
+        HTTP->>gg: /v2/qa/spin
+        gg->>MySQL: UPDATE gemstonesgold_state
+        MySQL->>gg: response for UPDATE gemstonesgold_state
+        gg->>MySQL: UPDATE gemstonesgold_spin2
+        gg->>o: AddUpdatePlayerUnfinishGameAsync
+        gg->>b: GetOperatorUIElementByOperatorIdAsync
+        b->>Hbase: Put Single Row Async
+        b->>Hbase: Organize request
+        b->>Hbase: Put Single Row Async
+        b->>appsetting: ConnectionStrings
+        b->>Hbase: Organize request
+        b->>Hbase: OpenConnection
+        b->>appsetting: ConnectionStrings
+        gg->>wg: CreateBetPayoutAsync
+        wg->>Hbase: Put Single Row Async
+        wg->>Hbase: Organize request
+        wg->>Hbase: OpenConnection
+        wg->>MySQL: UPDATE player_game_state_231222
+        wg->>MySQL: UPDATE cash_balance
+        wg->>MySQL: SELECT cb
+        wg->>MySQL: OpenConnection
+        gg->>MySQL: UPDATE gemstonesgold_state
+        gg->>big: GenerateBetIdAsync
+        big->>gg: GetOperatorSettingsByOperatorIdAsync
+        gg->>MySQL: SELECT * FROM gemstonesgold_state
+        gg->>MySQL: OpenConnection
+        gg->>o: GetPlayerSessionBySessionAsync
+        o->>Redis: GET game_common_db:PlayerLock
+        o->>Redis: QUERY WITH CACHE game_common_db: operator_setting_tair
+        o->>Redis: GET game_common_db: operator_setting_tair
+        o->>Redis: GET game_common_db: player_session
+    </div>
+
+    <h2> Spin : JKDAAA02 v2</h2>
+    <div class="mermaid">
+        sequenceDiagram
+        actor HTTP
+        HTTP->>gg: /v2/qa/spin
+        gg->>o: GetPlayerSessionBySessionAsync
+        o->>Redis: GET game_common_db: player_session
+        o->>Redis: GET game_common_db: operator_setting_tair
+        o->>Redis: QUERY WITH CACHE game_common_db: operator_setting_tair
+        o->>Redis: GET game_common_db:PlayerLock
+        gg->>MySQL: OpenConnection
+        gg->>MySQL: SELECT * FROM gemstonesgold_state
+        gg->>big: GenerateBetIdAsync
+        big->>gg: GetOperatorSettingsByOperatorIdAsync
+        gg->>MySQL: UPDATE gemstonesgold_state
+        gg->>wg: CreateBetPayoutAsync
+        wg->>MySQL: OpenConnection
+        wg->>MySQL: SELECT cb
+        wg->>MySQL: UPDATE cash_balance
+        wg->>MySQL: UPDATE player_game_state_231222
+        wg->>Hbase: OpenConnection
+        wg->>Hbase: Organize request
+        wg->>Hbase: Put Single Row Async
+        gg->>b: GetOperatorUIElementByOperatorIdAsync
+        b->>appsetting: ConnectionStrings
+        b->>Hbase: OpenConnection
+        b->>Hbase: Organize request
+        b->>appsetting: ConnectionStrings
+        b->>Hbase: Put Single Row Async
+        b->>Hbase: Organize request
+        b->>Hbase: Put Single Row Async
+        gg->>o: AddUpdatePlayerUnfinishGameAsync
+        gg->>MySQL: UPDATE gemstonesgold_spin2
+        gg->>MySQL: UPDATE gemstonesgold_state
+        MySQL->>gg: response for UPDATE gemstonesgold_state
+    </div>
+
+    <h2> Spin : JKDAAA02 v3</h2>
+    <div class="mermaid">
+        sequenceDiagram
+        actor HTTP (Mobile/Client)
+        actor gg
+        actor o
+        actor big
+        actor wg
+        actor b
+        participant MySQL
+        participant Redis
+        participant Hbase
+        participant appsetting
+
+        HTTP (Mobile/Client)->>gg: /v2/qa/spin
+        gg->>o: GetPlayerSessionBySessionAsync
+        o->>Redis: GET game_common_db: player_session
+        o->>Redis: GET game_common_db: operator_setting_tair
+        o->>Redis: QUERY WITH CACHE game_common_db: operator_setting_tair
+        o->>Redis: GET game_common_db:PlayerLock
+        o->>gg: response for GetPlayerSessionBySessionAsync
+        gg->>MySQL: OpenConnection
+        MySQL->>gg: response for OpenConnection
+        gg->>MySQL: SELECT * FROM gemstonesgold_state
+        MySQL->>gg: response for SELECT * FROM gemstonesgold_state
+        gg->>big: GenerateBetIdAsync
+        big->>gg: GetOperatorSettingsByOperatorIdAsync
+        gg->>MySQL: UPDATE gemstonesgold_state
+        MySQL->>gg: response for UPDATE gemstonesgold_state
+        gg->>wg: CreateBetPayoutAsync
+        wg->>MySQL: OpenConnection
+        wg->>MySQL: SELECT cb
+        wg->>MySQL: UPDATE cash_balance
+        wg->>MySQL: UPDATE player_game_state_231222
+        wg->>Hbase: OpenConnection
+        wg->>Hbase: Organize request
+        wg->>Hbase: Put Single Row Async
+        wg->>gg: response for CreateBetPayoutAsync
+        gg->>b: GetOperatorUIElementByOperatorIdAsync
+        b->>appsetting: ConnectionStrings
+        b->>Hbase: OpenConnection
+        b->>Hbase: Organize request
+        b->>appsetting: ConnectionStrings
+        b->>Hbase: Put Single Row Async
+        b->>Hbase: Organize request
+        b->>Hbase: Put Single Row Async
+        b->>gg: response for GetOperatorUIElementByOperatorIdAsync
+        gg->>o: AddUpdatePlayerUnfinishGameAsync
+        o->>gg: response for AddUpdatePlayerUnfinishGameAsync
+        gg->>MySQL: UPDATE gemstonesgold_spin2
+        MySQL->>gg: response for UPDATE gemstonesgold_spin2
+        gg->>MySQL: UPDATE gemstonesgold_state
+        MySQL->>gg: response for UPDATE gemstonesgold_state
+        gg->>HTTP (Mobile/Client): response for /v2/qa/spin
+    </div>
+</body>
+</html>
+
+
